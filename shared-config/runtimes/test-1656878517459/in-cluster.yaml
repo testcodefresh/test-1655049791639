@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    codefresh.io/entity: internal-config
+    codefresh.io/internal: "true"
+  name: in-cluster
+spec:
+  destination:
+    namespace: test-1656878517459
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    directory:
+      include: '{all-runtimes-all-clusters/*.yaml,all-runtimes-all-clusters/**/*.yaml,runtimes/test-1656878517459/*.yaml,runtimes/test-1656878517459/**/*.yaml,control-planes/*.yaml,control-planes/**/*.yaml}'
+      recurse: true
+    path: shared-config/resources
+    repoURL: https://github.com/testcodefresh/test-1655049791639.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      allowEmpty: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - allowEmpty=true
